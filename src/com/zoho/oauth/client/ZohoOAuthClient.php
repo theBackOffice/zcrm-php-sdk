@@ -10,7 +10,7 @@ class ZohoOAuthClient
 {
 	private $zohoOAuthParams;
 	private static $zohoOAuthClient;
-	
+
 	private function __construct($params)
 	{
 		$this->zohoOAuthParams=$params;
@@ -23,16 +23,16 @@ class ZohoOAuthClient
 		}
 		return self::$zohoOAuthClient;
 	}
-	
+
 	public static function getInstanceWithOutParam()
 	{
 		return self::$zohoOAuthClient;
 	}
-	
+
 	public function getAccessToken($userEmailId)
 	{
 		$persistence = ZohoOAuth::getPersistenceHandlerInstance();
-		$tokens;
+		$tokens = null;
 		try
 		{
 			$tokens = $persistence->getOAuthTokens($userEmailId);
@@ -58,7 +58,7 @@ class ZohoOAuthClient
 			return $tokens->getAccessToken();
 		}
 	}
-	
+
 	public function generateAccessToken($grantToken)
 	{
 		if($grantToken == null)
@@ -89,7 +89,7 @@ class ZohoOAuthClient
 			throw new ZohoOAuthException($ex);
 		}
 	}
-	
+
 	public function generateAccessTokenFromRefreshToken($refreshToken,$userEmailId)
 	{
 		self::refreshAccessToken($refreshToken,$userEmailId);
@@ -125,7 +125,7 @@ class ZohoOAuthClient
 			throw new ZohoOAuthException($ex);
 		}
 	}
-	
+
 	private function getZohoConnector($url)
 	{
 		$zohoHttpCon = new ZohoOAuthHTTPConnector();
@@ -135,13 +135,13 @@ class ZohoOAuthClient
 		$zohoHttpCon->addParam(ZohoOAuthConstants::REDIRECT_URL, $this->zohoOAuthParams->getRedirectURL());
 		return $zohoHttpCon;
 	}
-	
+
 	private function getTokensFromJSON($responseObj)
 	{
 		$oAuthTokens = new ZohoOAuthTokens();
 		$expiresIn = $responseObj[ZohoOAuthConstants::EXPIRES_IN];
 		$oAuthTokens->setExpiryTime($oAuthTokens->getCurrentTimeInMillis()+$expiresIn);
-	
+
 		$accessToken = $responseObj[ZohoOAuthConstants::ACCESS_TOKEN];
 		$oAuthTokens->setAccessToken($accessToken);
 		if (array_key_exists(ZohoOAuthConstants::REFRESH_TOKEN,$responseObj))
@@ -151,8 +151,8 @@ class ZohoOAuthClient
 		}
 		return $oAuthTokens;
 	}
-	
-	
+
+
 
     /**
      * zohoOAuthParams
@@ -169,7 +169,7 @@ class ZohoOAuthClient
     public function setZohoOAuthParams($zohoOAuthParams){
         $this->zohoOAuthParams = $zohoOAuthParams;
     }
-    
+
     public function getUserEmailIdFromIAM($accessToken)
     {
     	$connector = new ZohoOAuthHTTPConnector();
@@ -177,16 +177,16 @@ class ZohoOAuthClient
     	$connector->addHeadder(ZohoOAuthConstants::AUTHORIZATION, ZohoOAuthConstants::OAUTH_HEADER_PREFIX.$accessToken);
     	$apiResponse=$connector->get();
     	$jsonResponse=self::processResponse($apiResponse);
-    	
+
     	return $jsonResponse['Email'];
     }
     public function processResponse($apiResponse)
     {
     	list($headers, $content) = explode("\r\n\r\n",$apiResponse,2);
     	$jsonResponse=json_decode($content,true);
-    	
+
     	return $jsonResponse;
     }
-    
+
 }
 ?>
