@@ -225,3 +225,5 @@
 #21 /home/vagrant/Sites/Lacure-station/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(131): Illuminate\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
 #22 /home/vagrant/Sites/Lacure-station/artisan(37): Illuminate\Foundation\Console\Kernel->handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
 #23 {main}
+2019-12-16 02:43:51 INFO: Access Token has expired. Hence refreshing.
+2019-12-16 13:46:50 INFO: Access Token has expired. Hence refreshing.
