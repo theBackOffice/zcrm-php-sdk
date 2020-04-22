@@ -1,38 +1,23 @@
 <?php
 
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
-require_once realpath(dirname(__FILE__)."/../common/ZCRMConfigUtil.php");
 class Logger
 {
-	public static function writeToFile($msg)
+	
+	public static function __callStatic($name, $arguments)
 	{
-		if(env('APP_ENV') != 'local'){
-			return;
-		}
+		$msg = $arguments[0];
 		
-		Storage::append('ZCRMClientLibrary.log', $msg);
+		$level = [
+			         'warn'   => 'warning',
+			         'info'   => 'info',
+			         'severe' => 'critical',
+			         'err'    => 'error',
+			         'debug'  => 'debug'
+		         ][$name];
+		
+		Log::$level($msg);
 	}
 	
-	public static function warn($msg)
-	{
-		self::writeToFile("WARNING: $msg");
-	}
-	public static function info($msg)
-	{
-		self::writeToFile("INFO: $msg");
-	}
-	public static function severe($msg)
-	{
-		self::writeToFile("SEVERE: $msg");
-	}
-	public static function err($msg)
-	{
-		self::writeToFile("ERROR: $msg");
-	}
-	public static function debug($msg)
-	{
-		self::writeToFile("DEBUG: $msg");
-	}
 }
-?>
