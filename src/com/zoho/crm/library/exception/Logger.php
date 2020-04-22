@@ -10,11 +10,11 @@ class Logger
 		$msg = $arguments[0];
 		
 		$level = [
-			         'warn'   => 'warning',
+			         'debug'  => 'debug',
+			         'err'    => 'error',
 			         'info'   => 'info',
 			         'severe' => 'critical',
-			         'err'    => 'error',
-			         'debug'  => 'debug'
+			         'warn'   => 'warning',
 		         ][$name];
 		
 		Log::$level($msg);
