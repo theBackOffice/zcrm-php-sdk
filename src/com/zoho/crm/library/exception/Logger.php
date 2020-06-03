@@ -17,7 +17,9 @@ class Logger
 			         'warn'   => 'warning',
 		         ][$name];
 		
-		Log::$level($msg);
+		if(env('ZOHO_ERROR_LOGGING', true)){
+			Log::$level($msg);
+		}
 	}
 	
 }
